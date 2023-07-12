@@ -46,6 +46,12 @@ let calculateTotal = function () {
   //   total += item;
   // })
 
+    // arguments.__proto__ = Array.prototype
+
+    // arguments.forEach(()=>{
+
+    // })
+
 
   // 4. slice 를 빌려써서 배열로 만들기
   // let realArray = Array.prototype.slice.call(arguments);
