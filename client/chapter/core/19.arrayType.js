@@ -13,7 +13,7 @@
 
 // 배열 선언
 
-let friends = '진승, 혜미, 송이, 효윤, 선용, 승민, 상호, 영은, 희소'.split(','); // split -> 문자인 객체의 기능
+let friends = '진승,혜미,송이,효윤,선용,승민,상호,영은,희소'.split(','); // split -> 문자인 객체의 기능
 
 // console.log(friends); // ['진승', ' 혜미', ' 송이', ' 효윤', ' 선용', ' 승민', ' 상호', ' 영은', ' 희소']
 
@@ -45,9 +45,20 @@ console.log(friends);
 // 배열 요소 순환(loop)
 // for 문, for ~ of문
 
+for(let i = 0; i < friends.length; i++) {
+  // console.log(friends[i]);
+}
+
+for(let value of friends) { // for of 순환 가능한 이유: symbol iterator 메서드 정의 되어 있어서
+  // console.log(value);
+}
 
 // 배열 복사
-let copiedArray;
+// let copiedArray = [...friends]; // spread syntax (얕은복사)
+// let copiedArray = friends.slice();
+let copiedArray = friends.toSorted();
+
+console.log(copiedArray);
 
 // 다차원 배열
 // 행렬을 저장하는 용도
@@ -61,12 +72,7 @@ const matrix = [
 // 행렬의 정중앙에 위치한 요소를 찾으려면?
 
 // 다차원 배열
-// 행렬을 저장하는 용도
-
-const matrix = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9]
-];
 
 // 행렬의 정중앙에 위치한 요소를 찾으려면?
+
+matrix[1][1]
