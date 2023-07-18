@@ -45,7 +45,7 @@
 const first = getNode('.first');
 
 // - nodeType
-console.log(first.nodeType); // 1
+console.log(first.nodeType); // 1 (1 === ENELMENT_NODE)
 console.log(first.nodeType === document.ELEMENT_NODE); // true
 console.log(first.nodeType === 1); // true
 
@@ -59,12 +59,18 @@ console.log(first.tagName === 'SPAN'); // true
 /* 노드 콘텐츠 읽기/쓰기 ---------------------------------------------------- */
 
 // - innerHTML : 해킹 위험 있음!
-first.innerHTML = 'hellooooo'; // 노드에 접근해서 노드 안의 값을 변경
+// first.innerHTML = 'hellooooo'; // 노드에 접근해서 노드 안의 값을 변경
 
 // * 기존 내용 삭제
+// first.innerHTML = '';
+
 // * 기존 내용과 새로운 내용을 합친 새로운 내용을 씀
+// first.innerHTML += '<div>안녕!</div>';
 
 // - textContent
+// console.log(first.textContent = '50% 파격세일!'); // setter
+// console.log(first.textContent); // getter
+
 // * 요소 내의 텍스트에 접근
 // * 태그는 제외하고 오로지 텍스트만 추출
 
@@ -74,3 +80,16 @@ first.innerHTML = 'hellooooo'; // 노드에 접근해서 노드 안의 값을 �
 // - hidden
 // * hidden은 HTML 속성으로, DOM 프로퍼티로 사용 가능
 // * hidden 프로퍼티는 기술적으로 style="display:none"와 동일
+
+/* globals getNode */
+const h1 = getNode('h1');
+
+// h1.hidden = true; // DOM 프로퍼티로 사용한 것
+
+let toggle = false;
+
+// 글자 깜빡거리게
+// setInterval(() => {
+//   h1.hidden = toggle ?false :true;
+//   toggle = !toggle;
+// }, 100);
