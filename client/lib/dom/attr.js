@@ -1,5 +1,69 @@
+// const attr = (function(){
 
-  function getAttr(node, prop){
+// function getAttr(node,prop){
+
+//   // 0. 넘어온 대상이 문자인지를 체크
+//   // 1. 체크 후 element node 로 변경해 줘야함.!
+
+//   // const node = '.first';
+//   // const prop = 'id';
+//   // '.first'.getAttribute('id');
+
+//   if(typeof node === 'string'){
+//     node = getNode(node);
+//   }
+
+//   return node.getAttribute(prop);
+
+// }
+
+// function setAttr(node,prop,value){
+
+//   if(typeof node === 'string'){
+//     node = getNode(node);
+//   }
+
+//   // 전달받은 prop의 타입이 string이 아니라면 Error!
+
+//   if(typeof prop !== 'string'){
+//     throw new TypeError('setAttr 함수의 두 번째 인수는 문자 타입 이어야 합니다.')
+//   }
+
+//   if(!node[prop] && prop !== 'class' && prop !== 'title'){
+//     node.dataset[prop] = value;
+//     return;
+//   }
+
+//   node.setAttribute(prop,value);
+// }
+
+// // 작은 함수를 만들고 보다 큰 함수로
+
+// const arrowAttr = (node,prop,value) => !value ? getAttr(node,prop) : setAttr(node,prop,value);
+
+// function attr(node,prop,value){
+
+//   // if(!value){
+//   //   return getAttr(node,prop);
+//   // }else{
+//   //   setAttr(node,prop,value);
+//   // }
+
+//   return !value ? getAttr(node,prop) : setAttr(node,prop,value);
+
+// }
+
+//   return attr;
+
+// // IIFE
+
+// })()
+
+// // getAttr()
+
+// attr()
+
+function getAttr(node, prop){
   // 0. 넘어온 대상이 문자인지를 체크
   // 1. 체크 후 element node로 변경해 줘야함!
 
@@ -33,9 +97,6 @@ function setAttr(node, prop, value) {
   }
 
   // 비표준으로 받았을 때의 데이터 처리
-  // first['title']=>'인사멘트'
-  // title을 설정했을 때는 왜 data-title로 되는지?
-  // title이 빈문자이면 false이기 때문에 형변환 되서
   if(!node[prop] && prop !== 'class' && prop !== 'title') {
     node.dataset[prop] = value;
     return; // 리턴문 만나면 함수는 더이상 실행하지 않는다. node.setAttribute(prop, value) 실행 X
@@ -52,7 +113,7 @@ const arrowAttr = (node, prop, value) => !value ?getAttr(node, prop) :setAttr(no
 
 function attr(node, prop, value){
 
-  // if(!value){
+  // if(!value){ // value가 없으면 undefined -> false
   //   return getAttr(node, prop);
   // }else{
   //   setAttr(node, prop, value);
