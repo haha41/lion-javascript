@@ -53,6 +53,7 @@ input[type=submit]{
   cursor: pointer;
   overflow: hidden;
   transition: background .3s;
+    line-height: 1.5;
 }
 
 .result:hover{
@@ -72,7 +73,7 @@ input[type=submit]{
 .alert-success{
   border-radius: 1rem 0 0 1rem;
   background:rgb(0, 219, 230);
-	color: black;
+    color: black;
   right: 0;
   top: 0;
   transform: translateX(100%);
