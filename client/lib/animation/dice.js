@@ -1,11 +1,12 @@
 import { attr } from "../dom/attr.js";
 import { getNode } from '../dom/getNode.js'
-import { gsap } from "../../../node_modules/gsap/index.js";
+// import { gsap } from "../../../node_modules/gsap/index.js";
 import { memo } from "../utils/memo.js";
 
-const cube = getNode('#cube');
+/* global gsap */
 
-memo('cube',()=>getNode('#cube'));
+// const cube = getNode('#cube');
+memo('cube',()=>getNode('#cube')); // getNode를 여러번 쓰기 때문에 memo를 만들어 활용함
 
 
 
