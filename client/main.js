@@ -1,7 +1,27 @@
-/* eslint no-unused-vars: 1 */
 
-console.log('hello js!');
 
-const a = 10;
+import { xhr } from "./lib/index.js";
 
-const b = 10;
+xhr.get('https://jsonplaceholder.typicode.com/users',
+  (res)=>{
+    console.log(res);
+  }
+)
+
+// promise
+// xhr.get('http://www.naver.com')
+// .then((res)=>{
+
+// })
+// .catch((err)=>{
+
+// })
+
+// xhr.get()
+// xhr.get(
+//   'https://jsonplaceholder.typicode.com/users',
+//   (res)=>{
+//     console.log(res);
+//   }
+// )
+
