@@ -1,5 +1,5 @@
 
-import { attr, clearContents, diceAnimation, endScroll, getNode, getNodes, insertLast } from "./lib/index.js";
+import { attr, memo, clearContents, diceAnimation, endScroll, getNode, getNodes, insertLast } from "./lib/index.js";
 
 // [phase-1] 주사위 굴리기
 // 1. dice animation 불러오기
@@ -30,8 +30,13 @@ import { attr, clearContents, diceAnimation, endScroll, getNode, getNodes, inser
 // 배열 구조 분해 할당
 const [startButton,recordButton,resetButton] = getNodes('.buttonGroup > button'); // 모든 버튼을 배열로 가져옴
 const recordListWrapper = getNode('.recordListWrapper');
-const tbody = getNode('.recordList tbody')
+memo('@tbody', ()=>getNode('.recordList tbody')) // setter, 실제 태그랑 구분 짓기 위해 @ 붙임
+// const tbody = getNode('.recordList tbody')
 // console.log(tbody);
+
+memo('@tbody') // getter
+
+
 
 // 진짜 진짜 쉬운 과제
 // disableElement(node)
@@ -61,7 +66,7 @@ function renderRecordItem(){
   const diceValue = +attr('#cube', 'data-dice');
   
   // insertLast('.recordList tbody', template); // recordList안에 있는 tbody에 뿌려야 함
-  insertLast(tbody,createItem(diceValue));
+  insertLast(memo('@tbody'),createItem(diceValue));
 
   endScroll(recordListWrapper);
 }
@@ -111,7 +116,7 @@ function handleReset() {
   recordButton.disabled = true; // 기록, 초기화 버튼 누르지 못하도록, 다시 주사위 굴려야 누를 수 있음
   resetButton.disabled = true; // 기록, 초기화 버튼 누르지 못하도록, 다시 주사위 굴려야 누를 수 있음
 
-  clearContents(tbody);
+  clearContents(memo('@tbody'));
   count = 0;
   total = 0;
 }
