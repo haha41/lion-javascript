@@ -1,9 +1,9 @@
 import { getNode } from "../dom/getNode.js";
+import { insertLast } from "../dom/insert.js";
+import { xhrPromise } from "./xhr.js";
 
-
-
-function delay(callback, timeout=1000) {
-  setTimeout(callback, timeout);  
+function delay(callback,timeout=1000){
+  setTimeout(callback,timeout);
 }
 
 const first = getNode('.first');
@@ -26,18 +26,111 @@ const second = getNode('.second');
 // })
 
 
+
 // delayP 함수를 실행하면 리턴되는 값이 promise 객체입니다.
-function delayP() {
+
+// 객체 합성 mixin
+
+const defaultOptions = {
+  shouldReject:false,
+  timeout:1000,
+  data:'성공!',
+  errorMessage:'알 수 없는 오류가 발생했습니다.'
+}
+
+function delayP(options){
   
+  let config = {...defaultOptions} // 얕은 복사
+
+  if(typeof options === 'number'){
+    config.timeout = options;
+  }
+
+  if(typeof options === 'object'){
+    config = {...defaultOptions, ...options} // opstions가 dafaultOpstions를 덮어씀 (뒤에서 앞을)
+  }
+
+  const {shouldReject, data, errorMessage, timeout} = config;
+
   return new Promise((resolve, reject) => {
-    resolve('성공입니다!')
+    setTimeout(() => {
+
+      if(!shouldReject){
+        resolve(data)
+      }else{
+        reject({message:errorMessage}); // 객체로 전달
+      }  
+    }, timeout);
   })
 }
 
-delayP()
-.then((result)=>{
-  console.log(result);
+delayP({shouldReject:false})
+.then((res)=>{
+  // console.log( res );
 })
+.catch(({message})=>{
+  alert(message);
+})
+.finally(()=>{
+  // console.log('어쨌든 실행합니다.');
+})
+
+
 
 // console.log(2);
 // console.log(3);
+
+async function delayA() {
+  return '성공!'
+}
+
+const data = await delayA();
+
+// console.log( data );
+
+
+// 비동기 이해하기
+// async - 함수가 promise 객체를 반환 하도록
+//       - await 사용 
+
+// await - 코드의 실행 흐름 제어 (멈춰)
+//       - result값 가져오기 
+
+
+async function 라면끓이기(){
+
+  delayP({data:'물넣기'}).then((res)=>{
+    console.log( res );
+  })
+
+  const 스프 = await delayP({data:'스프넣기'})
+  console.log(스프);
+
+  const 면 = await delayP({data:'면넣기'})
+  console.log(면);
+
+  const 계란 = await delayP({data:'계란넣기'})
+  console.log(계란);
+
+  const 접시 = await delayP({data:'접시'})
+  console.log(접시);
+}
+
+// 라면끓이기()
+
+// then 결과 가져오기
+// await 결과 가져오기
+async function getData(){
+  const data = await xhrPromise.get('https://pokeapi.co/api/v2/pokemon/7')
+
+  // data.then((res)=>{
+  //   console.log(res);
+  // }) 
+
+  const pokemon = await data;
+  console.log(pokemon.sprites['front_default']); // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/100.png
+
+  insertLast(document.body, `<img src="${pokemon.sprites['front_default']}" alt="" />`)
+}
+
+// getData()

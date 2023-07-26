@@ -1,27 +1,8 @@
 
 
-import { xhr } from "./lib/index.js";
+import { tiger } from "./lib/index.js";
 
-xhr.get('https://jsonplaceholder.typicode.com/users',
-  (res)=>{
-    console.log(res);
-  }
-)
 
-// promise
-// xhr.get('http://www.naver.com')
-// .then((res)=>{
+const data = await tiger.get('https://jsonplaceholder.typicode.com/users')
 
-// })
-// .catch((err)=>{
-
-// })
-
-// xhr.get()
-// xhr.get(
-//   'https://jsonplaceholder.typicode.com/users',
-//   (res)=>{
-//     console.log(res);
-//   }
-// )
-
+console.log(data);
