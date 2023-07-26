@@ -1,3 +1,4 @@
+import { refError } from '../error/refError.js';
 
 
 /* 
@@ -40,16 +41,18 @@ xhr.addEventListener('readystatechange',()=>{
 
 xhr.send(); */
 
+
+
 /* callback --------------------------------------------- */
 
 // 객체 구조 분해 할당
 export function xhr(
   {
     method = 'GET', 
-    url = '', 
+    url = '',  // url은 필수 값이기 때문에 공백
     onSuccess = null, 
     onFail = null, 
-    body = null, 
+    body = null, // '' 조차도 데이터가 있음을 나타내는 것이기 때문에 리소스 낭비. null이 맞다.
     headers = {
       'Content-Type':'application.json',
       'Access-Control-Allow-Origin':'*'
@@ -156,8 +159,6 @@ xhr.delete = (url, onSuccess, onFail)=>{
   })
 }
 
-
-
 // xhr.get(
 //   'https://jsonplaceholder.typicode.com/users',
 //   (result)=>{
@@ -168,6 +169,89 @@ xhr.delete = (url, onSuccess, onFail)=>{
 //   }
 // )
 
-
-
 // 유저랜더링(data)
+
+/* promise API ---------------------------------------------------- */
+
+const defaultOptions = {
+  method:'GET',
+  url:'',
+  body:null,
+  errorMessage:'서버와의 통신이 원활하지 않습니다.',
+  headers:{
+    'Content-Type':'application/json',
+    'Access-Control-Allow-Origin':'*'
+  }
+}
+
+export function xhrPromise(options) {
+
+  // mixin
+
+  // const config = {...defaultOptions, ...options};
+  // const config = Object.assign({},defaultOptions,options) // 이것도 객체 합성, 참조 아닌 새로운 객체로 만들기 위해 {}
+  const {method, url, body, errorMessage, headers} = Object.assign({},defaultOptions,options) // 구조 분해 할당까지
+
+  if(!url) refError('서버와의 통신할 url은 필수값 입니다.');
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.open(method,url);
+
+  Object.entries(headers).forEach(([key, value])=>{
+    xhr.setRequestHeader(key,value); // 통신 보낼 때 헤더에 key 와 value 도 같이 보냄
+  })
+
+  xhr.send(JSON.stringify(body)); // 보낼 때 문자화, 순서 상관 없으므로 send을 위로 올림
+
+  return new Promise((resolve, reject) => {
+    xhr.addEventListener('readystatechange',()=>{
+    
+      if(xhr.readyState === 4){
+        if(xhr.status >= 200 && xhr.status < 400){
+          resolve(JSON.parse(xhr.response))
+        }else{
+          reject({message:'서버와의 통신이 원활하지 않습니다'})
+        }
+      }
+    })
+  })
+}
+
+xhrPromise.get = (url)=>{
+  return xhrPromise({url})
+}
+
+// console.log(xhrPromise.get('https://jsonplaceholder.typicode.com/users'));
+
+xhrPromise.post = (url,body)=>{
+  return xhrPromise({
+    url,
+    body,
+    method: 'POST'
+  })
+}
+
+xhrPromise.delete = (url)=>{
+  return xhrPromise({
+    url,
+    method:'DELETE'
+  })
+}
+
+xhrPromise.put = (url,body)=>{
+  xhrPromise({
+    url,
+    body,
+    method:'PUT'
+  })
+}
+
+// xhrPromise({
+//   url: 'https://jsonplaceholder.typicode.com/users'
+// })
+// .then((res)=>{
+//   res.forEach((item)=>{
+//     console.log(item);
+//   })
+// })
