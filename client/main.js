@@ -2,17 +2,17 @@
 
 
 import { 
+  attr,
   tiger,
   delayP,
   insertLast, 
   getNode as $, 
-  renderUserCard, 
   changeColor,
   renderSpinner,
-  renderEmptyCard,
-  attr,
   clearContents,
-} from "./lib/index.js";
+  renderUserCard,
+  renderEmptyCard,
+ } from './lib/index.js';
 
 // [phase-1]
 // 1. tiger 함수를 사용해서 user를 가져와 주세요
@@ -79,7 +79,7 @@ renderUserList()
 
 // [phase-3]
 // 버튼을 클릭 했을 때 해당 article의 id 값을 가져옴.
-// - 이벤트 위임
+// - 이벤트 위임 e.target
 // - button 선택하기 -> 클릭한 대상의 가장 가까운 method
 // - attr(), dataset
 
@@ -113,4 +113,4 @@ function handleDelete(e) {
 
 }
 
-userCardInner.addEventListener('click',handleDelete); // userCard?Inner가 가장 큰 영역임
+userCardInner.addEventListener('click',handleDelete); // userCardInner가 가장 큰 영역임
